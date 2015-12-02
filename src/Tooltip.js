@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import tbsUtils from './utils/bootstrapUtils';
 import isRequiredForA11y from 'react-prop-types/lib/isRequiredForA11y';
+const window = window || {};
 
 const Tooltip = React.createClass({
 
@@ -54,6 +55,22 @@ const Tooltip = React.createClass({
       bsClass: 'tooltip',
       placement: 'right'
     };
+  },
+
+  updateDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  },
+
+  componentWillMount() {
+    this.updateDimensions();
+  },
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
   },
 
   render() {
